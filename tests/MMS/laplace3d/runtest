@@ -59,31 +59,31 @@ for nx in nxlist:
 
     print("Error norm: l-2 %f l-inf %f" % (l2, linf))
     
-    # some plots for debugging
-    from matplotlib import pyplot
-    result = collect("result", path="data")[1:-1,0,:]
-    solution = collect("solution", path="data")[1:-1,0,:]
-    #result = collect("result", path="data")[:,0,:]
-    #solution = collect("solution", path="data")[:,0,:]
-    pyplot.subplot(131)
-    pyplot.contourf(result,100)
-    pyplot.colorbar()
-    pyplot.title("result")
-    pyplot.subplot(132)
-    pyplot.contourf(solution,100)
-    pyplot.colorbar()
-    pyplot.title("solution")
-    pyplot.subplot(133)
-    pyplot.contourf(E,100)
-    pyplot.colorbar()
-    pyplot.title("error")
+    ## some plots for debugging
+    #from matplotlib import pyplot
+    #result = collect("result", path="data")[1:-1,0,:]
+    #solution = collect("solution", path="data")[1:-1,0,:]
+    ##result = collect("result", path="data")[:,0,:]
+    ##solution = collect("solution", path="data")[:,0,:]
+    #pyplot.subplot(131)
+    #pyplot.contourf(result,100)
+    #pyplot.colorbar()
+    #pyplot.title("result")
+    #pyplot.subplot(132)
+    #pyplot.contourf(solution,100)
+    #pyplot.colorbar()
+    #pyplot.title("solution")
+    #pyplot.subplot(133)
+    #pyplot.contourf(E,100)
+    #pyplot.colorbar()
+    #pyplot.title("error")
 
     #pyplot.figure()
     #error_rhs = collect("error2", path="data")[1:-1,0]
     #pyplot.contourf(error_rhs, 100)
     #pyplot.colorbar()
 
-    pyplot.show()
+    #pyplot.show()
 
 # Calculate grid spacing
 dx = 1. / (array(nxlist) - 2.)

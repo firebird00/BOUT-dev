@@ -12,17 +12,17 @@ int main(int argc, char **argv) {
     return init_err;
   }
 
-  ////// Set mesh spacing
-  Options *meshoptions = Options::getRoot()->getSection("mesh");
+  //////// Set mesh spacing
+  //Options *meshoptions = Options::getRoot()->getSection("mesh");
 
-  BoutReal Lx;
-  meshoptions->get("Lx",Lx,1.0);
+  //BoutReal Lx;
+  //meshoptions->get("Lx",Lx,1.0);
 
-  /*this assumes equidistant grid*/
-  int nguard = mesh->xstart;
-  mesh->coordinates()->dx = Lx/(mesh->GlobalNx - 2*nguard);
-  mesh->coordinates()->dz = TWOPI*Lx/(mesh->LocalNz);
-  /////
+  ///*this assumes equidistant grid*/
+  //int nguard = mesh->xstart;
+  //mesh->coordinates()->dx = Lx/(mesh->GlobalNx - 2*nguard);
+  //mesh->coordinates()->dz = TWOPI*Lx/(mesh->LocalNz);
+  ///////
 
   // Create a Laplacian inversion solver
   Laplacian *lap = Laplacian::create();
