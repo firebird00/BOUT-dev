@@ -1,0 +1,45 @@
+
+MZ = 32
+myg = 1
+mxg = 1
+
+#solution = exp(sin(3*z))*sin(pi*x) + log(sin(z + 1.7) + 2.0)*tan(sin(2*pi*x))
+##input = pi^2*(0.1*x + 2.0)*(-4*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*sin(2*pi*x) + 8*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*cos(2*pi*x)^2*tan(sin(2*pi*x)) - exp(sin(3*z))*sin(pi*x)) + 0.2*pi*(3*exp(sin(3*z))*cos(3*z)*cos(pi*x) + 2*(tan(sin(2*pi*x))^2 + 1)*cos(2*pi*x)*cos(z + 1.7)/(sin(z + 1.7) + 2.0)) + 0.2*pi*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*cos(2*pi*x) - 27.0*exp(sin(3*z))*sin(3*z)*sin(pi*x) + 27.0*exp(sin(3*z))*sin(pi*x)*cos(3*z)^2 + 0.1*pi*exp(sin(3*z))*cos(pi*x) - 3.0*sin(z + 1.7)*tan(sin(2*pi*x))/(sin(z + 1.7) + 2.0) - 3.0*cos(z + 1.7)^2*tan(sin(2*pi*x))/(sin(z + 1.7) + 2.0)^2 # g11=2+0.1*x
+#solution = exp(sin(3*z))*sin(pi*x) + log(sin(z + 1.7) + 2.0)*tan(sin(2*pi*x))
+#input = pi^2*(0.01*x + 2.0)*(-4*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*sin(2*pi*x) + 8*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*cos(2*pi*x)^2*tan(sin(2*pi*x)) - exp(sin(3*z))*sin(pi*x)) + 0.2*pi*(3*exp(sin(3*z))*cos(3*z)*cos(pi*x) + 2*(tan(sin(2*pi*x))^2 + 1)*cos(2*pi*x)*cos(z + 1.7)/(sin(z + 1.7) + 2.0)) + 0.02*pi*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*cos(2*pi*x) - 27.0*exp(sin(3*z))*sin(3*z)*sin(pi*x) + 27.0*exp(sin(3*z))*sin(pi*x)*cos(3*z)^2 + 0.01*pi*exp(sin(3*z))*cos(pi*x) - 3.0*sin(z + 1.7)*tan(sin(2*pi*x))/(sin(z + 1.7) + 2.0) - 3.0*cos(z + 1.7)^2*tan(sin(2*pi*x))/(sin(z + 1.7) + 2.0)^2 # g11=2+0.01*x
+#solution = exp(sin(3*z))*sin(pi*x) + log(sin(z + 1.7) + 2.0)*tan(sin(2*pi*x))
+##input = (y + 3.0)*(-9*exp(sin(3*z))*sin(3*z)*sin(pi*x) + 9*exp(sin(3*z))*sin(pi*x)*cos(3*z)^2 - sin(z + 1.7)*tan(sin(2*pi*x))/(sin(z + 1.7) + 2.0) - cos(z + 1.7)^2*tan(sin(2*pi*x))/(sin(z + 1.7) + 2.0)^2) + 0.2*pi*(3*exp(sin(3*z))*cos(3*z)*cos(pi*x) + 2*(tan(sin(2*pi*x))^2 + 1)*cos(2*pi*x)*cos(z + 1.7)/(sin(z + 1.7) + 2.0)) + 2.0*pi^2*(-4*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*sin(2*pi*x) + 8*(tan(sin(2*pi*x))^2 + 1)*log(sin(z + 1.7) + 2.0)*cos(2*pi*x)^2*tan(sin(2*pi*x)) - exp(sin(3*z))*sin(pi*x)) # g11=2, g33=3+y
+
+solution = sin(pi*x)
+input = -pi^2*(0.01*x + 2.0)*sin(pi*x) + 0.01*pi*cos(pi*x)
+
+[mesh]
+
+symmetricGlobalX = true
+
+#nx = 36
+nx = 34
+ny = 1
+
+#g11 = 2.0
+g11 = 0.01*x + 2.0
+g22 = 5.0
+g33 = 1.0
+#g33 = 3.0 + y
+g12 = 0.7
+#g13 = 0.0
+g13 = 0.1
+g23 = x
+#g_11 = 0.5
+#g_22 = 1.0
+#g_33 = 1.0
+#g_12 = 0.0
+#g_13 = 0.0
+#g_23 = 0.0
+J = 1.0
+Bxy = 1.0
+
+[laplace]
+
+type = cyclic
+flags = 0
