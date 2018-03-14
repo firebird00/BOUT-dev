@@ -40,9 +40,15 @@ int main(int argc, char **argv) {
 
   Field3D error = result - solution;
 
-  //mesh->communicate(result);
-  //Field3D error2 = input-Delp2(result);
-  //SAVE_ONCE(error2);
+  Field2D G1 = mesh->coordinates()->G1;
+  Field2D G3 = mesh->coordinates()->G3;
+  Field2D G3analytic = fact.create2D("G3");
+  SAVE_ONCE3(G1, G3, G3analytic);
+  Field2D g23analytic = fact.create2D("g23");
+  SAVE_ONCE(g23analytic);
+  mesh->communicate(result);
+  Field3D error2 = input-Delp2(solution);
+  SAVE_ONCE(error2);
 
   SAVE_ONCE4(input, result, solution, error);
   dump.write();

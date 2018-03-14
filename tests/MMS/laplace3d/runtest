@@ -18,11 +18,15 @@ shell_safe("make > make.log")
 
 # List of NX values to use
 nxlist = [16, 32, 64, 128, 256]
+#nxlist = [16, 32, 64, 128]
 
 nout = 1
 timestep = 0.1
 
-nproc = 2
+nproc = 4
+
+#plotChecks = True
+plotChecks = False
 
 error_2   = []  # The L2 error (RMS)
 error_inf = []  # The maximum error
@@ -49,41 +53,80 @@ for nx in nxlist:
     # Collect data
     E = collect("error", tind=[nout,nout], path="data")
     #E = E[1:-1,0,:]
-    E = E[:,0,:]
+    E = E[:,:,:]
     
     l2 = sqrt(mean(E**2))
     linf = max(abs(E))
+    #jy = E.shape[1]/2
+    jy = E.shape[1]-1
+    #l2 = sqrt(mean(E[:,jy,:]**2))
+    #linf = max(abs(E[:,jy,:]))
     
     error_2.append( l2 )
     error_inf.append( linf )
 
     print("Error norm: l-2 %f l-inf %f" % (l2, linf))
     
-    ## some plots for debugging
-    #from matplotlib import pyplot
-    #result = collect("result", path="data")[1:-1,0,:]
-    #solution = collect("solution", path="data")[1:-1,0,:]
-    ##result = collect("result", path="data")[:,0,:]
-    ##solution = collect("solution", path="data")[:,0,:]
-    #pyplot.subplot(131)
-    #pyplot.contourf(result,100)
-    #pyplot.colorbar()
-    #pyplot.title("result")
-    #pyplot.subplot(132)
-    #pyplot.contourf(solution,100)
-    #pyplot.colorbar()
-    #pyplot.title("solution")
-    #pyplot.subplot(133)
-    #pyplot.contourf(E,100)
-    #pyplot.colorbar()
-    #pyplot.title("error")
+    if plotChecks:
+        # some plots for debugging
+        from matplotlib import pyplot
+        result = collect("result", path="data")[1:-1,jy,:]
+        solution = collect("solution", path="data")[1:-1,jy,:]
+        #result = collect("result", path="data")[:,jy,:]
+        #solution = collect("solution", path="data")[:,jy,:]
+        pyplot.figure()
+        pyplot.subplot(131)
+        pyplot.contourf(result,100)
+        pyplot.colorbar()
+        pyplot.title("result")
+        pyplot.subplot(132)
+        pyplot.contourf(solution,100)
+        pyplot.colorbar()
+        pyplot.title("solution")
+        pyplot.subplot(133)
+        pyplot.contourf(E[:,jy,:],100)
+        pyplot.colorbar()
+        pyplot.title("error")
 
-    #pyplot.figure()
-    #error_rhs = collect("error2", path="data")[1:-1,0]
-    #pyplot.contourf(error_rhs, 100)
-    #pyplot.colorbar()
+        #jy2 = E.shape[1]/2
+        #result = collect("result", path="data")[1:-1,jy2,:]
+        #solution = collect("solution", path="data")[1:-1,jy2,:]
+        ##result = collect("result", path="data")[:,jy,:]
+        ##solution = collect("solution", path="data")[:,jy,:]
+        #pyplot.figure()
+        #pyplot.subplot(131)
+        #pyplot.contourf(result,100)
+        #pyplot.colorbar()
+        #pyplot.title("result2")
+        #pyplot.subplot(132)
+        #pyplot.contourf(solution,100)
+        #pyplot.colorbar()
+        #pyplot.title("solution2")
+        #pyplot.subplot(133)
+        #pyplot.contourf(E[:,jy,:],100)
+        #pyplot.colorbar()
+        #pyplot.title("error2")
 
-    #pyplot.show()
+        #pyplot.figure()
+        #error_rhs = collect("error2", path="data")[1:-1,0]
+        #pyplot.contourf(error_rhs, 100)
+        #pyplot.colorbar()
+
+        pyplot.figure()
+        G3 = collect("G3", path="data")[1:-1,:]
+        G3analytic = collect("G3analytic", path="data")[1:-1,:]
+        pyplot.contourf(G3-G3analytic,100)
+        pyplot.title("G3 error")
+        pyplot.colorbar()
+
+        pyplot.figure()
+        g23 = collect("g23", path="data")[1:-1,:]
+        g23analytic = collect("g23analytic", path="data")[1:-1,:]
+        pyplot.contourf(g23-g23analytic,100)
+        pyplot.title("g23 error")
+        pyplot.colorbar()
+
+        pyplot.show()
 
 # Calculate grid spacing
 dx = 1. / (array(nxlist) - 2.)
