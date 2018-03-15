@@ -9,7 +9,7 @@ from builtins import str
 from boututils.run_wrapper import shell, shell_safe, launch_safe, getmpirun
 from boutdata.collect import collect
 
-from numpy import sqrt, max, abs, mean, array, log, concatenate
+from numpy import sqrt, max, abs, mean, array, log, concatenate, index_exp
 
 MPIRUN = getmpirun()
 
@@ -24,13 +24,22 @@ timestep = 0.1
 
 nproc = 4
 
-plotChecks = False
+plotChecks = True
+
+two_guard_cells = False
+if two_guard_cells:
+    indices = index_exp[1:-1,:,:]
+else:
+    indices = index_exp[:,:,:]
 
 error_2   = []  # The L2 error (RMS)
 error_inf = []  # The maximum error
 
 for nx in nxlist:
-    args = "mesh:nx="+str(nx+2)+" MZ="+str(nx)
+    if two_guard_cells:
+        args = "mesh:nx="+str(nx+4)+" MZ="+str(nx)
+    else:
+        args = "mesh:nx="+str(nx+2)+" MZ="+str(nx)
     
     print("Running with " + args)
 
@@ -49,7 +58,7 @@ for nx in nxlist:
 
     # Collect data
     E = collect("error", tind=[nout,nout], path="data")
-    E = E[:,:,:]
+    E = E[indices]
     
     l2 = sqrt(mean(E**2))
     linf = max(abs(E))
@@ -63,8 +72,9 @@ for nx in nxlist:
         # some plots for debugging
         from matplotlib import pyplot
         jy = E.shape[1]-1
-        result = collect("result", path="data")[1:-1,jy,:]
-        solution = collect("solution", path="data")[1:-1,jy,:]
+        sliceindices = (indices[0], jy, indices[2])
+        result = collect("result", path="data")[sliceindices]
+        solution = collect("solution", path="data")[sliceindices]
         #result = collect("result", path="data")[:,jy,:]
         #solution = collect("solution", path="data")[:,jy,:]
         pyplot.figure()

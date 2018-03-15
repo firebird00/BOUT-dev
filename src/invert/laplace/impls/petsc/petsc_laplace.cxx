@@ -60,7 +60,7 @@ static PetscErrorCode laplacePCapply(PC pc,Vec x,Vec y) {
 LaplacePetsc::LaplacePetsc(Options *opt) :
   Laplacian(opt),
   A(0.0), C1(1.0), C2(1.0), D(1.0), Ex(0.0), Ez(0.0),
-  issetD(false), issetC(false), issetE(false)
+  issetD(false), issetC(false), issetE(false), sol(mesh)
 {
 
   // Get Options in Laplace Section
